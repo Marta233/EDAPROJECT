@@ -53,22 +53,4 @@ def calculate_summary_stats(data):
     for stat, description, value in summary_stats_list:
         print(f"{description}:")
         print(value)
-    
     return summary_stats_list
-
-def run_eda(file_path):
-    # Load data
-    data = load_data(file_path)
-    
-    # Print basic information
-    basic_info(data)
-    basic_desc(data)
-    
-    # Calculate summary statistics
-    summary_stats = calculate_summary_stats(data)
-    
-    return summary_stats
-
-if __name__ == "__main__":
-    file_path = 'dataset/benin-malanville.csv'  # Provide the path to your dataset
-    summary_stats = run_eda(file_path)
