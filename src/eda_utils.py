@@ -87,41 +87,61 @@ def plot_time_series(cleaned_df):
         print("Error: 'Timestamp' column not found in the DataFrame.")
         return
     
+    # Define columns to plot
+    columns_to_plot = ['GHI', 'DNI', 'DHI']
+    
+    # Check if the columns exist in the DataFrame
+    for col in columns_to_plot:
+        if col not in cleaned_df.columns:
+            print(f"Error: Column '{col}' not found in the DataFrame.")
+            return
+    
     # Convert 'Timestamp' column to datetime format
     cleaned_df['Timestamp'] = pd.to_datetime(cleaned_df['Timestamp'])
-    
+
     # Set 'Timestamp' column as index
     cleaned_df.set_index('Timestamp', inplace=True)
-    
+
     # Define colors
-    colors = sns.color_palette("husl", len(cleaned_df.columns))
-    
+    colors = sns.color_palette("husl", len(columns_to_plot))
+
     # Plot time series
     plt.figure(figsize=(12, 6))
-    for i, col in enumerate(['GHI', 'DNI', 'DHI', 'Tamb']):  # Specify columns to plot
+    for i, col in enumerate(columns_to_plot):  # Specify columns to plot
         sns.lineplot(data=cleaned_df, x=cleaned_df.index, y=col, label=col, color=colors[i], linewidth=2, alpha=0.8)
     plt.xlabel('Time', fontsize=12)
     plt.ylabel('Value', fontsize=12)
-    plt.title('Time Series Analysis for GHI, DNI, DHI, TModA, TModB', fontsize=16)
+    plt.title('Time Series Analysis for GHI, DNI, DHI', fontsize=16)
     plt.legend(fontsize=10)
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.xticks(fontsize=10)
     plt.yticks(fontsize=10)
     plt.tight_layout()
+
+
 def correlation_analysis(data):
     print("Performing correlation analysis...")
     """Perform correlation analysis between solar radiation and temperature variables."""
     # Select relevant columns for correlation analysis
-    relevant_columns = ['GHI', 'DNI', 'DHI', 'TModA', 'TModB']
+    relevant_columns = ['GHI', 'DNI', 'DHI']  # Remove 'TModA' and 'TModB'
+
+    # Check if all relevant columns exist in the DataFrame
+    missing_columns = [col for col in relevant_columns if col not in data.columns]
+    if missing_columns:
+        print(f"Error: Columns {missing_columns} not found in the DataFrame.")
+        return
+
     relevant_data = data[relevant_columns]
-    
+
     # Calculate correlation matrix
     correlation_matrix = relevant_data.corr()
-    
+
     # Plot heatmap
     plt.figure(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
-    plt.title('Correlation Heatmap for GHI, DNI, DHI, TModA, TModB')
+    plt.title('Correlation Heatmap for GHI, DNI, DHI')
+
+
 
 def plot_boxplot_outliers(data):
     print("Plotting boxplot with outliers for solar radiation and temperature data...")
