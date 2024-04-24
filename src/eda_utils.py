@@ -145,3 +145,4 @@ def plot_boxplot_outliers(data):
     
     # Adjust layout
     plt.tight_layout()
+

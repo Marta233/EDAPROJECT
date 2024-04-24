@@ -2,6 +2,7 @@ import sys
 import os
 import pandas as pd
 from src import eda_utils
+from src import visualization
 import matplotlib.pyplot as plt
 
 def run_eda(file_path):
@@ -20,9 +21,13 @@ def run_eda(file_path):
     cleaned_df = cleaned_df.drop(columns=['Comments'])
     print("Cleaned data shape:", cleaned_df.shape)
     cleaned_df.info()
-    eda_utils.plot_time_series(cleaned_df)
-    eda_utils.correlation_analysis(cleaned_df)
-    eda_utils.plot_boxplot_outliers(cleaned_df)
+        # eda_utils.plot_time_series(cleaned_df)
+    # eda_utils.correlation_analysis(cleaned_df)
+    # eda_utils.plot_boxplot_outliers(cleaned_df)
+    # visualization.wind_analysis(cleaned_df)
+    # visualization.temperature_analysis(cleaned_df)
+    # visualization.plot_histograms(cleaned_df)
+    visualization.plot_scatter_plots(cleaned_df)
     
 
 if __name__ == "__main__":
