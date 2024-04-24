@@ -12,6 +12,7 @@ def run_eda(file_path):
     eda_utils.basic_desc(data)
     # Calculate summary statistics
     summary_stats = eda_utils.calculate_summary_stats(data)
+    print("descriptions")
     eda_utils.missing_values(data)
     eda_utils.count_negative_values(data)
     eda_utils.count_negative_values(data)
