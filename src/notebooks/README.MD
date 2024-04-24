@@ -55,19 +55,21 @@ To run the analysis, follow these steps:
 2. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/solar-energy-analysis.git
+   git clone https://github.com/Marta233/EDAPROJECT.git
    ```
 
 3. Navigate to the project directory:
 
    ```bash
-   cd solar-energy-analysis
+   cd EDAPROJECT
    ```
 
 4. Run the main script:
 
    ```bash
-   python main.py
+   python run_eda_for_benin.py
+   python run_eda_for_sieeraleoone.py
+   python run_eda_for_togo.py
    ```
 
 5. View the generated plots and analysis results.
@@ -78,4 +80,4 @@ Contributions to this project are welcome! If you have suggestions, feature requ
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Marta A.
