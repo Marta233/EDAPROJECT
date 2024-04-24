@@ -1,5 +1,7 @@
 import pandas as pd
-
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
 def load_data(file_path):
     """Load data from a CSV file."""
     return pd.read_csv(file_path)
@@ -54,3 +56,69 @@ def calculate_summary_stats(data):
         print(f"{description}:")
         print(value)
     return summary_stats_list
+ # 1. Missing Values
+def missing_values(data):
+    missing_values = data.isnull().sum()
+    print("Missing Values:")
+    print(missing_values)
+# Incorrect Entries (Negative Values)
+
+def count_negative_values(data):
+    # Convert non-numeric values to NaN
+    data_numeric = data.apply(pd.to_numeric, errors='coerce')
+    # Count negative values for each attribute
+    negative_counts = (data_numeric < 0).sum()
+    print("\nCount of Negative Values in each Attribute:")
+    print(negative_counts)
+def remove_negative_rows(df, columns):
+    """Remove rows containing negative values in specified columns from a DataFrame."""
+    # Copy the original DataFrame to avoid modifying it directly
+    cleaned_df = df.copy()
+    
+    # Remove rows with negative values in specified columns
+    for col in columns:
+        cleaned_df = cleaned_df[cleaned_df[col] >= 0] 
+    return cleaned_df 
+def plot_time_series(cleaned_df):
+    """Plot time series for specified columns."""
+    # Check if 'Timestamp' column is present in the DataFrame
+    if 'Timestamp' not in cleaned_df.columns:
+        print("Error: 'Timestamp' column not found in the DataFrame.")
+        return
+    
+    # Convert 'Timestamp' column to datetime format
+    cleaned_df['Timestamp'] = pd.to_datetime(cleaned_df['Timestamp'])
+    
+    # Set 'Timestamp' column as index
+    cleaned_df.set_index('Timestamp', inplace=True)
+    
+    # Define colors
+    colors = sns.color_palette("husl", len(cleaned_df.columns))
+    
+    # Plot time series
+    plt.figure(figsize=(12, 6))
+    for i, col in enumerate(['GHI', 'DNI', 'DHI', 'Tamb']):  # Specify columns to plot
+        sns.lineplot(data=cleaned_df, x=cleaned_df.index, y=col, label=col, color=colors[i], linewidth=2, alpha=0.8)
+    plt.xlabel('Time', fontsize=12)
+    plt.ylabel('Value', fontsize=12)
+    plt.title('Time Series Analysis', fontsize=16)
+    plt.legend(fontsize=10)
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.xticks(fontsize=10)
+    plt.yticks(fontsize=10)
+    plt.tight_layout()
+    plt.show()
+def correlation_analysis(data):
+    """Perform correlation analysis between solar radiation and temperature variables."""
+    # Select relevant columns for correlation analysis
+    relevant_columns = ['GHI', 'DNI', 'DHI', 'TModA', 'TModB']
+    relevant_data = data[relevant_columns]
+    
+    # Calculate correlation matrix
+    correlation_matrix = relevant_data.corr()
+    
+    # Plot heatmap
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
+    plt.title('Correlation Heatmap')
+    plt.show()
