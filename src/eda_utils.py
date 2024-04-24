@@ -80,6 +80,7 @@ def remove_negative_rows(df, columns):
         cleaned_df = cleaned_df[cleaned_df[col] >= 0] 
     return cleaned_df 
 def plot_time_series(cleaned_df):
+    print("Plotting time series...")
     """Plot time series for specified columns."""
     # Check if 'Timestamp' column is present in the DataFrame
     if 'Timestamp' not in cleaned_df.columns:
@@ -101,14 +102,14 @@ def plot_time_series(cleaned_df):
         sns.lineplot(data=cleaned_df, x=cleaned_df.index, y=col, label=col, color=colors[i], linewidth=2, alpha=0.8)
     plt.xlabel('Time', fontsize=12)
     plt.ylabel('Value', fontsize=12)
-    plt.title('Time Series Analysis', fontsize=16)
+    plt.title('Time Series Analysis for GHI, DNI, DHI, TModA, TModB', fontsize=16)
     plt.legend(fontsize=10)
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.xticks(fontsize=10)
     plt.yticks(fontsize=10)
     plt.tight_layout()
-    plt.show()
 def correlation_analysis(data):
+    print("Performing correlation analysis...")
     """Perform correlation analysis between solar radiation and temperature variables."""
     # Select relevant columns for correlation analysis
     relevant_columns = ['GHI', 'DNI', 'DHI', 'TModA', 'TModB']
@@ -120,5 +121,27 @@ def correlation_analysis(data):
     # Plot heatmap
     plt.figure(figsize=(10, 8))
     sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidths=0.5)
-    plt.title('Correlation Heatmap')
-    plt.show()
+    plt.title('Correlation Heatmap for GHI, DNI, DHI, TModA, TModB')
+
+def plot_boxplot_outliers(data):
+    print("Plotting boxplot with outliers for solar radiation and temperature data...")
+    """Plot boxplot with outliers for solar radiation and temperature data."""
+    # Select relevant columns
+    solar_columns = ['GHI', 'DNI', 'DHI']
+    temp_columns = ['Tamb', 'TModA', 'TModB']
+    
+    # Create subplots for solar radiation and temperature
+    fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(10, 8))
+    
+    # Plot box plots for solar radiation
+    sns.boxplot(data=data[solar_columns], ax=axes[0])
+    axes[0].set_title('Solar Radiation (W/m²)')
+    axes[0].set_ylabel('Radiation (W/m²)')
+    
+    # Plot box plots for temperature
+    sns.boxplot(data=data[temp_columns], ax=axes[1])
+    axes[1].set_title('Temperature (°C)')
+    axes[1].set_ylabel('Temperature (°C)')
+    
+    # Adjust layout
+    plt.tight_layout()
