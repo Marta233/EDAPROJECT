@@ -1,14 +1,7 @@
-import unittest
 from unittest.mock import patch
 import pandas as pd
-import matplotlib.pyplot as plt
-import pytest
 from src import eda_utils
 from unittest.mock import patch
-import seaborn as sns
-import numpy as np
-
-
 # Load data function tests
 def test_load_data(tmp_path):
     # Create a sample DataFrame

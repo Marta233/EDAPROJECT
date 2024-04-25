@@ -214,7 +214,7 @@ def plot_histograms(data):
 
 # Main function
 def main():
-    st.title("Solar Pandel Installation Analysis")
+    st.title("Solar panel Installation Analysis")
     with st.sidebar:
         upload_file = st.file_uploader("Choose a file", type=["csv", "xlsx",'pdf'])
 
