@@ -189,6 +189,23 @@ def plot_boxplot_outliers(data):
     # Adjust layout
     plt.tight_layout()
     st.pyplot(fig)
+# Function for scatter plots
+def plot_scatter_plots(data):
+    st.subheader("Scatter Plots")
+    st.write("Scatter plots to explore relationships between pairs of variables:")
+    
+    # Define pairs of variables for scatter plots
+    variable_pairs = [('GHI', 'Tamb'), ('WS', 'WSgust'), ('TModA', 'TModB')]
+    
+    # Plot scatter plots
+    fig, axes = plt.subplots(nrows=1, ncols=len(variable_pairs), figsize=(15, 5))
+    for i, pair in enumerate(variable_pairs):
+        sns.scatterplot(data=data, x=pair[0], y=pair[1], ax=axes[i])
+        axes[i].set_title(f'{pair[0]} vs {pair[1]}')
+        axes[i].set_xlabel(pair[0])
+        axes[i].set_ylabel(pair[1])
+    plt.tight_layout()
+    st.pyplot(fig)
 
 
 # Main function
@@ -227,23 +244,19 @@ def main():
             st.write(missing_values(Weather_Data))
             
         st.write("---")
-
-    col4, col5 = st.columns(2)
-    with col4:
         st.subheader("Time Series Plot")
         plot_time_series(Weather_Data)
-
-    with col5:
         st.subheader("Time Series Plot for Tamb")
         plot_time_series_tamb(Weather_Data)
     col6,col7 = st.columns(2)
     with col6:
-        st.subheader("Correlation between different variables:")
+        st.subheader("Correlation:")
         correlation_analysis(Weather_Data)
     with col7:
         st.subheader("outlier")
         plot_boxplot_outliers(Weather_Data)
-
+    st.subheader("Scatter")
+    plot_scatter_plots(Weather_Data)
 
 if __name__ == "__main__":
     main()
